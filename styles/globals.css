@@ -6,6 +6,10 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -15,6 +19,9 @@ a {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+.css-1wfewgb-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  font-size: 1.6rem;
 }
 
 @media (prefers-color-scheme: dark) {
