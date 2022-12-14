@@ -6,10 +6,7 @@ const styleFn: LayoutStyleProps = () => ({
     height: "100vh",
     background: "linear-gradient(to left, #e4e9ef, #076585)",
   },
-  main: {
-    height: "100vh",
-    overflowY: "auto",
-  },
+  main: {},
 });
 
 export default styleFn;

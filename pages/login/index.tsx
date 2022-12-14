@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import CarRentalOutlinedIcon from "@mui/icons-material/CarRentalOutlined";
 import styleFn from "./Login.styles";
+import { handleLogin } from "../api";
 
 export default function Home() {
   const styles = styleFn();
@@ -90,6 +91,12 @@ export default function Home() {
               variant="contained"
               color="info"
               sx={styles.fontSizeLg}
+              onClick={() =>
+                handleLogin({
+                  username: "proxolab",
+                  password: "jas34Qsd56Q03fj3yH@",
+                })
+              }
             >
               Login
             </Button>

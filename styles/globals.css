@@ -23,7 +23,29 @@ a {
 .css-1wfewgb-MuiButtonBase-root-MuiTab-root.Mui-selected {
   font-size: 1.6rem;
 }
-
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border: 2px solid white !important;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+  color: black !important;
+}
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: white !important;
+}
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+  color: white !important;
+}
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+  color: white !important;
+  width: 2rem;
+  height: 2rem;
+}
+.css-bpeome-MuiSvgIcon-root-MuiSelect-icon {
+  color: white !important;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
