@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 import { GetServerSidePropsContext, PreviewData } from "next/types";
 import { ParsedUrlQuery, ParsedUrlQueryInput } from "querystring";
 

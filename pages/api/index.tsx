@@ -28,3 +28,12 @@ export const handleLogin = async ({ username, password }: LoginProps) => {
     console.error(error);
   }
 };
+
+export const getModel = async ({ id }: { id: number }) => {
+  try {
+    const res = await instance.get(`/api/model/${id}`, config);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
