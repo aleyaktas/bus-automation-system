@@ -7,10 +7,20 @@ interface LoginProps {
   password: string;
 }
 
-const config: AxiosRequestConfig = {
+interface BusModelProps {
+  plate_number: string;
+  model_id: number | undefined;
+  number_of_seats: number;
+  type: number | undefined;
+  properties: Array<any> | undefined;
+}
+
+const token = Cookies.get("token");
+
+var config: AxiosRequestConfig = {
   headers: {
     "Content-Type": "application/json",
-    Authorization: Cookies.get("token") ? `Bearer ${Cookies.get("token")}` : "",
+    Authorization: `Bearer ${token}`,
   },
 };
 
@@ -22,16 +32,37 @@ export const handleLogin = async ({ username, password }: LoginProps) => {
       config
     );
     Cookies.set("token", res.data.data);
+    config.headers!.Authorization = `Bearer ${res.data.data}`;
 
     return res.data.data;
   } catch (error) {
     console.error(error);
   }
 };
+console.log(config);
 
 export const getModel = async ({ id }: { id: number }) => {
   try {
     const res = await instance.get(`/api/model/${id}`, config);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addBusModel = async ({
+  plate_number,
+  model_id,
+  number_of_seats,
+  type,
+  properties,
+}: BusModelProps) => {
+  try {
+    const res = await instance.post(
+      "/api/bus",
+      { plate_number, model_id, number_of_seats, type, properties },
+      config
+    );
     return res.data;
   } catch (error) {
     console.error(error);

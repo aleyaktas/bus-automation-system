@@ -18,6 +18,7 @@ import { useContext } from "react";
 import { Context } from "../_app";
 import { Router } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const schema = object({
   username: string().required("Username is required"),
@@ -37,6 +38,8 @@ export default function Home() {
   const onSubmit = async (data: FormValues) => {
     const userData = await handleLogin(data);
     setUser(userData);
+    Cookies.set("token", userData);
+
     router.push("/define-bus");
   };
 
