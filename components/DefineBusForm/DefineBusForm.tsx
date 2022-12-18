@@ -11,6 +11,8 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import styleFn from "./DefineBusForm.styles";
 
+const styles = styleFn();
+
 const DefineBusForm = ({
   register,
   errors,
@@ -20,8 +22,11 @@ const DefineBusForm = ({
   selectedBrand,
   handleSubmit,
   onSubmit,
+  isSuccess,
+  setNumberOfSeats,
+  numberOfSeats,
+  setSelectedType,
 }: any) => {
-  const styles = styleFn();
   return (
     <FormControl sx={styles.container}>
       <Alert sx={styles.alert} severity="info">
@@ -73,7 +78,7 @@ const DefineBusForm = ({
                   disablePortal
                   id="combo-box-demo"
                   onChange={(e, data) => {
-                    onChange(data), setSelectedBrand(data), console.log(data);
+                    onChange(data), setSelectedBrand(data);
                   }}
                   options={defineBusData.brands}
                   renderInput={(params) => (
@@ -140,17 +145,29 @@ const DefineBusForm = ({
           height="auto"
           alignItems="center"
         >
-          <Typography sx={styles.typography} variant="h5">
-            Koltuk Sayısı
-          </Typography>
-          <TextField
-            {...register("seatCount")}
-            error={!!errors.seatCount}
-            helperText={errors.seatCount?.message}
-            id="outlined-basic"
-            label="Koltuk Sayısı"
-            variant="outlined"
-            sx={styles.root}
+          <Controller
+            name={"seatCount"}
+            control={control}
+            render={({ field: { onChange, ...controllerProps } }) => (
+              <>
+                <Typography sx={styles.typography} variant="h5">
+                  Koltuk Sayısı
+                </Typography>
+                <TextField
+                  onChange={(e: any) => {
+                    onChange(parseInt(e.target.value));
+                    setNumberOfSeats(parseInt(e.target.value));
+                  }}
+                  error={!!errors.seatCount}
+                  value={numberOfSeats ? numberOfSeats : ""}
+                  helperText={errors.seatCount?.message}
+                  label="Koltuk Sayısı"
+                  id="outlined-basic"
+                  variant="outlined"
+                  sx={styles.root}
+                />
+              </>
+            )}
           />
         </Grid>
         <Grid
@@ -171,15 +188,15 @@ const DefineBusForm = ({
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  onChange={(e, data) => {
-                    onChange(data);
+                  onChange={(e, data: any) => {
+                    onChange(data), setSelectedType(data?.id);
                   }}
                   options={defineBusData.types}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       error={!!errors.type}
-                      helperText={errors.type?.label?.message}
+                      helperText={errors.type?.message}
                       label="Tip"
                       sx={styles.root}
                     />
@@ -229,7 +246,7 @@ const DefineBusForm = ({
           sx={styles.button}
           onClick={handleSubmit(onSubmit)}
         >
-          Kaydet
+          {isSuccess ? "Düzenle" : "Kaydet"}
         </Button>
       </Grid>
     </FormControl>

@@ -11,6 +11,7 @@ interface BusModelProps {
   plate_number: string;
   model_id: number | undefined;
   number_of_seats: number;
+  id?: number;
   type: number | undefined;
   properties: Array<any> | undefined;
 }
@@ -39,7 +40,6 @@ export const handleLogin = async ({ username, password }: LoginProps) => {
     console.error(error);
   }
 };
-console.log(config);
 
 export const getModel = async ({ id }: { id: number }) => {
   try {
@@ -61,6 +61,26 @@ export const addBusModel = async ({
     const res = await instance.post(
       "/api/bus",
       { plate_number, model_id, number_of_seats, type, properties },
+      config
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const editBusModel = async ({
+  plate_number,
+  model_id,
+  id,
+  number_of_seats,
+  type,
+  properties,
+}: BusModelProps) => {
+  try {
+    const res = await instance.put(
+      "/api/bus",
+      { plate_number, model_id, number_of_seats, id, type, properties },
       config
     );
     return res.data;

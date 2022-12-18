@@ -1,15 +1,44 @@
-import styled from "@emotion/styled";
-import { Button, Grid, Icon, Paper, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { useState } from "react";
+import * as React from "react";
+import { Button, Grid, Typography } from "@mui/material";
+import { useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import styleFn from "./DefineBusModel.styles";
 
-const DefineBusModel = () => {
-  const [seatCount, setSeatCount] = useState(10);
-  const [type, setType] = useState(1);
+interface DefineBusModelProps {
+  numberOfSeats: number;
+  type: number;
+  setNumberOfSeats: (numberOfSeats: number) => void;
+}
+
+const DefineBusModel = ({
+  numberOfSeats,
+  type,
+  setNumberOfSeats,
+}: DefineBusModelProps) => {
   const styles = styleFn();
+  let seatCounter = 1 as number;
+  const onClickAddSeat = () => {
+    if (numberOfSeats < 60 && numberOfSeats % 4 === 0) {
+      setNumberOfSeats(numberOfSeats + 4);
+    } else if (numberOfSeats < 60 && numberOfSeats % 3 === 0) {
+      setNumberOfSeats(numberOfSeats + 3);
+    }
+  };
+  console.log(numberOfSeats);
+  const onClickRemoveSeat = () => {
+    if (numberOfSeats > 4 && numberOfSeats % 4 === 0) {
+      setNumberOfSeats(numberOfSeats - 4);
+    } else if (numberOfSeats > 3 && numberOfSeats % 3 === 0) {
+      setNumberOfSeats(numberOfSeats - 3);
+    }
+  };
+  const ref = React.useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }
+  }, [numberOfSeats]);
   return (
     <Grid
       bgcolor="white"
@@ -18,17 +47,36 @@ const DefineBusModel = () => {
       height="auto"
       overflow="auto"
       container
+      ref={ref}
       alignContent="flex-start"
       borderRadius="0.4rem"
+      xs={8}
+      md={6}
+      item
       sx={styles.container}
     >
       <Grid container justifyContent="end" marginTop="1.2rem">
-        <Button variant="contained" sx={styles.button}>
-          <AddIcon />
-        </Button>
-        <Button variant="contained" color="primary" sx={styles.button}>
-          <RemoveIcon />
-        </Button>
+        <div
+          style={{
+            position: "fixed",
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={styles.button}
+            onClick={onClickAddSeat}
+          >
+            <AddIcon />
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={styles.button}
+            onClick={onClickRemoveSeat}
+          >
+            <RemoveIcon />
+          </Button>
+        </div>
       </Grid>
       <Grid
         xs={6}
@@ -49,21 +97,38 @@ const DefineBusModel = () => {
         {(() => {
           const seat = [];
           if (type === 1) {
-            for (let i = 0; i <= seatCount / 3; i++) {
+            for (let i = 1; i <= numberOfSeats / 3; i++) {
               seat.push(
                 <>
                   <Grid
                     container
                     xs={6}
-                    justifyContent="space-evenly"
+                    justifyContent="center"
                     marginBottom="2rem"
                   >
-                    <Grid xs={3} item container>
-                      <div style={styles.seat}>{i}</div>
+                    <Grid
+                      xs={3}
+                      item
+                      container
+                      justifyContent="center"
+                      alignItems="center"
+                      sx={styles.seat}
+                    >
+                      <Typography fontSize="1.6rem">{seatCounter}</Typography>
                     </Grid>
-                    <Grid xs={3} item container>
-                      <div style={styles.seat}>{i}</div>
+                    {seatCounter++}
+
+                    <Grid
+                      xs={3}
+                      item
+                      container
+                      justifyContent="center"
+                      alignItems="center"
+                      sx={styles.seat}
+                    >
+                      <Typography fontSize="1.8rem">{seatCounter}</Typography>
                     </Grid>
+                    {seatCounter++}
                   </Grid>
                   <Grid
                     container
@@ -71,31 +136,55 @@ const DefineBusModel = () => {
                     justifyContent="center"
                     marginBottom="2rem"
                   >
-                    <Grid xs={3} item container>
-                      <div style={styles.seat}>{i}</div>
+                    <Grid
+                      xs={3}
+                      item
+                      container
+                      justifyContent="center"
+                      alignItems="center"
+                      sx={styles.seat}
+                    >
+                      <Typography fontSize="1.6rem">{seatCounter}</Typography>
                     </Grid>
+                    {seatCounter++}
                   </Grid>
                 </>
               );
             }
             return seat;
           } else if (type === 2) {
-            for (let i = 0; i <= seatCount / 4; i++) {
+            for (let i = 1; i <= numberOfSeats / 4; i++) {
               for (let j = 0; j < 2; j++) {
                 seat.push(
                   <>
                     <Grid
                       container
                       xs={6}
-                      justifyContent="space-evenly"
+                      justifyContent="center"
                       marginBottom="2rem"
                     >
-                      <Grid xs={3} item container>
-                        <div style={styles.seat}>{i}</div>
+                      <Grid
+                        xs={3}
+                        item
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={styles.seat}
+                      >
+                        <Typography fontSize="1.6rem">{seatCounter}</Typography>
                       </Grid>
-                      <Grid xs={3} item container>
-                        <div style={styles.seat}>{i}</div>
+                      {seatCounter++}
+                      <Grid
+                        xs={3}
+                        item
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={styles.seat}
+                      >
+                        <Typography fontSize="1.6rem">{seatCounter}</Typography>
                       </Grid>
+                      {seatCounter++}
                     </Grid>
                   </>
                 );

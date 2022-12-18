@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import instance, { serverSideConfig } from "../../utils/axios";
 import { object, string, number, array, InferType, TypeOf } from "yup";
-import { addBusModel, getModel } from "../api";
+import { addBusModel, editBusModel, getModel } from "../api";
 import styleFn from "./DefineBus.styles";
 import DefineBusForm from "../../components/DefineBusForm/DefineBusForm";
 import DefineBusModel from "../../components/DefineBusModel/DefineBusModel";
@@ -61,23 +61,56 @@ const schema = object({
     id: number(),
     label: string().required("Model girilmesi zorunludur"),
   }),
+
   seatCount: number()
+    .default(20)
     .required("Koltuk sayısı girilmesi zorunludur")
-    .typeError("Koltuk sayısı girilmesi zorunludur"),
-  type: object().shape({
-    id: number(),
-    label: string().required("Tip girilmesi zorunludur"),
-  }),
+    .typeError("Koltuk sayısı girilmesi zorunludur")
+    // multiple of 3 or 4
+    .test(
+      "seatCount",
+      "Koltuk sayısı 3 veya 4 ile tam bölünmelidir",
+      (value) => value % 3 === 0 || value % 4 === 0
+    ),
+
+  type: object()
+    .shape({
+      id: number(),
+      label: string().required("Tip girilmesi zorunludur"),
+    })
+    .test("type", "Tip girilmesi zorunludur", function (value: any) {
+      return value.label === undefined ? false : true;
+    })
+    .test(
+      "seatCount",
+      "Koltuk sayısı ile tip uyumlu olmalıdır",
+      function (value: any) {
+        return this.parent.seatCount % 3 === 0 &&
+          this.parent.seatCount % 4 !== 0
+          ? value.label === "2+1"
+          : this.parent.seatCount % 4 === 0 && this.parent.seatCount % 3 !== 0
+          ? value.label === "2+2"
+          : this.parent.seatCount % 4 === 0 && this.parent.seatCount % 3 === 0
+          ? value.label === "2+1" || value.label === "2+2"
+          : false;
+      }
+    )
+    .typeError("Tip girilmesi zorunludur"),
+
   properties: array().min(1, "Özellik girilmesi zorunludur"),
 });
 
 type FormValues = InferType<typeof schema>;
 
 export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
+  const [selectedType, setSelectedType] = useState<number>(2);
+
   const { register, handleSubmit, formState, control, resetField, setValue } =
     useForm<FormValues>({
       resolver: yupResolver(schema),
     });
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [busId, setBusId] = useState(-1);
 
   const { fields } = useFieldArray({
     control,
@@ -90,6 +123,11 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
     id: -1,
     label: "",
   });
+  const [numberOfSeats, setNumberOfSeats] = useState(20);
+
+  useEffect(() => {
+    setValue("seatCount", numberOfSeats);
+  }, [numberOfSeats]);
 
   const findModel = async (id: number) => {
     const model = await getModel({ id: id });
@@ -156,19 +194,35 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
   });
 
   const onSubmit = async (data: FormValues) => {
-    data &&
-      (await addBusModel({
-        plate_number: data.plate,
-        model_id: data.model?.id,
-        number_of_seats: data.seatCount,
-        type: data.type?.id,
-        properties: data?.properties?.map((item) => {
-          return {
-            id: item.id,
-            name: item.label,
-          };
-        }),
-      }));
+    var res;
+    {
+      isSuccess && busId !== -1
+        ? (res = await editBusModel({
+            plate_number: data.plate,
+            model_id: data.model?.id,
+            id: busId,
+            number_of_seats: numberOfSeats,
+            type: data.type.id,
+            properties: data?.properties?.map((item) => {
+              return {
+                id: item.id,
+              };
+            }),
+          }))
+        : (res = await addBusModel({
+            plate_number: data.plate,
+            model_id: data.model?.id,
+            number_of_seats: numberOfSeats,
+            type: data.type.id,
+            properties: data?.properties?.map((item) => {
+              return {
+                id: item.id,
+              };
+            }),
+          }));
+    }
+    res && res.message === "Bus created" && setIsSuccess(true);
+    res && res.message === "Bus created" && setBusId(res.bus?.id);
   };
 
   return (
@@ -183,10 +237,18 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
           selectedBrand={selectedBrand}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
+          isSuccess={isSuccess}
+          setNumberOfSeats={setNumberOfSeats}
+          setSelectedType={setSelectedType}
+          numberOfSeats={numberOfSeats}
         />
       </Grid>
       <Grid item xs={6} container justifyContent="flex-start">
-        <DefineBusModel />
+        <DefineBusModel
+          numberOfSeats={numberOfSeats}
+          type={selectedType}
+          setNumberOfSeats={setNumberOfSeats}
+        />
       </Grid>
     </Grid>
   );
