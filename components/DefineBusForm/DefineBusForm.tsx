@@ -52,8 +52,8 @@ const DefineBusForm = ({
           <TextField
             {...register("plate")}
             error={!!errors.plate}
-            helperText={errors.plate?.message}
             id="outlined-basic"
+            helperText={errors.plate?.message}
             label="Plaka"
             variant="outlined"
             sx={styles.root}
@@ -85,7 +85,6 @@ const DefineBusForm = ({
                     <TextField
                       {...params}
                       error={!!errors.brand}
-                      helperText={errors.brand?.label?.message}
                       label="Marka"
                       sx={styles.root}
                     />
@@ -124,7 +123,6 @@ const DefineBusForm = ({
                     <TextField
                       {...params}
                       error={!!errors.model}
-                      helperText={errors.model?.label?.message}
                       label={
                         selectedBrand && selectedBrand?.id === -1
                           ? "Önce Marka Seçiniz"
@@ -160,7 +158,6 @@ const DefineBusForm = ({
                   }}
                   error={!!errors.seatCount}
                   value={numberOfSeats ? numberOfSeats : ""}
-                  helperText={errors.seatCount?.message}
                   label="Koltuk Sayısı"
                   id="outlined-basic"
                   variant="outlined"
@@ -196,7 +193,6 @@ const DefineBusForm = ({
                     <TextField
                       {...params}
                       error={!!errors.type}
-                      helperText={errors.type?.message}
                       label="Tip"
                       sx={styles.root}
                     />
@@ -231,7 +227,6 @@ const DefineBusForm = ({
                     <TextField
                       {...params}
                       error={!!errors.properties}
-                      helperText={errors.properties?.message}
                       label="Özellikler"
                       sx={styles.root}
                     />

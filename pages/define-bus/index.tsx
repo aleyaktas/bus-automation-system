@@ -52,7 +52,25 @@ export const getServerSideProps = async (context: any) => {
 };
 
 const schema = object({
-  plate: string().required("Plaka girilmesi zorunludur"),
+  plate: string()
+    .required("Plaka girilmesi zorunludur")
+    .matches(
+      /^([0-8][0-1]|[0-8][0-1][0-9]|[0-8][0-1][0-9][0-9])\s[A-Z]{1,3}\s([0-9]{2,4})$/,
+      "Plaka formatı uygun değil"
+    )
+    .test("plate", "Plaka formatı uygun değil", (value) => {
+      if (value === undefined) return false;
+      const plate = value.split(" ");
+      if (plate[1]?.length === 1 && plate[2].length !== 4) return false;
+      if (
+        plate[1]?.length === 2 &&
+        plate[2]?.length !== 3 &&
+        plate[2]?.length !== 4
+      )
+        return false;
+      if (plate[1]?.length === 3 && plate[2]?.length !== 2) return false;
+      return true;
+    }),
   brand: object().shape({
     id: number(),
     label: string().required("Marka girilmesi zorunludur"),
@@ -192,6 +210,7 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
     }),
     models: [] as Array<any>,
   });
+  console.log(defineBusData);
 
   const onSubmit = async (data: FormValues) => {
     var res;

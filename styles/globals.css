@@ -20,13 +20,14 @@ a {
   padding: 0;
   margin: 0;
 }
-.css-1wfewgb-MuiButtonBase-root-MuiTab-root.Mui-selected {
+/* .css-1wfewgb-MuiButtonBase-root-MuiTab-root.Mui-selected {
   font-size: 1.6rem;
 }
 /* .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
   border: 2px solid white !important;
 } */
 
+/*
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
   color: black !important;
 }
@@ -49,6 +50,58 @@ input#value-input {
   color: white !important;
   font-size: 1.8rem;
 }
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root {
+  background-color: transparent !important;
+}
+.css-raiqh1-MuiTypography-root-MuiDayPicker-weekDayLabel {
+  font-size: 1.6rem;
+}
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root {
+  font-size: 1.6rem;
+}
+.css-ghi3gg-MuiDayPicker-weekContainer {
+  justify-content: space-between;
+}
+.css-qklzlb-MuiDayPicker-header {
+  justify-content: space-between;
+}
+.css-169iwlq-MuiCalendarPicker-root {
+  width: 50rem;
+  height: 70rem;
+}
+.css-11lq3yg-MuiGrid-root {
+  width: auto;
+}
+.css-195y93z-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
+  background-color: transparent;
+  border: none;
+  font-size: 1.6rem;
+}
+.css-195y93z-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+  background-color: #1976d2 !important;
+  font-size: 1.6rem;
+}
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+  background-color: #1976d2 !important;
+  font-size: 1.6rem;
+}
+.css-31ca4x-MuiPickersFadeTransitionGroup-root {
+  font-size: 1.6rem;
+}
+.css-dplwbx-MuiPickersCalendarHeader-label {
+  font-size: 2rem;
+}
+.css-3eghsz-PrivatePickersYear-button {
+  font-size: 1.6rem;
+}
+.css-1tkx1wf-MuiSvgIcon-root-MuiPickersCalendarHeader-switchViewIcon {
+  width: 10rem;
+  height: 10rem;
+}
+.css-i4bv87-MuiSvgIcon-root {
+  width: 2rem;
+  height: 2rem;
+} */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

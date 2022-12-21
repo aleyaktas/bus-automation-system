@@ -25,7 +25,7 @@ const DefineBusModel = ({
       setNumberOfSeats(numberOfSeats + 3);
     }
   };
-  console.log(numberOfSeats);
+
   const onClickRemoveSeat = () => {
     if (numberOfSeats > 4 && numberOfSeats % 4 === 0) {
       setNumberOfSeats(numberOfSeats - 4);

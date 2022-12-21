@@ -45,7 +45,11 @@ const Navbar = () => {
   const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    newValue === 0 ? router.push("/define-bus") : router.push("/login");
+    newValue === 0
+      ? router.push("/define-bus")
+      : newValue === 1
+      ? router.push("/define-voyage")
+      : router.push("/login");
   };
 
   return (

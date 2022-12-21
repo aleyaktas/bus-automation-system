@@ -1,6 +1,6 @@
-import { DefineBusFormStyleProps } from "./DefineBusForm.types";
+import { DefineVoyageFormStyleProps } from "./DefineVoyageForm.types";
 
-const styleFn: DefineBusFormStyleProps = () => ({
+const styleFn: DefineVoyageFormStyleProps = () => ({
   container: {
     height: "100%",
     width: "100%",
@@ -54,7 +54,7 @@ const styleFn: DefineBusFormStyleProps = () => ({
       color: "rgba(0, 0, 0, 0.38) !important",
     },
   },
-  typography: { width: "8rem" },
+  typography: { width: "10rem" },
   button: {
     width: "30rem",
     height: "4rem",
