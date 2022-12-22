@@ -21,8 +21,7 @@ const styleFn: DefineBusFormStyleProps = () => ({
       borderColor: "white",
     },
     "& label.Mui-focused": {
-      color: "purple",
-      borderColor: "purple",
+      color: "black",
     },
     "& .MuiInputLabel-root": {
       fontSize: "1.4rem",
@@ -46,9 +45,11 @@ const styleFn: DefineBusFormStyleProps = () => ({
       },
     },
     "& .MuiFormHelperText-root.Mui-error": {
-      color: "black",
+      color: "#af0101",
       fontWeight: "300",
       fontSize: "1.2rem",
+      position: "absolute",
+      top: "5rem",
     },
     "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
       color: "rgba(0, 0, 0, 0.38) !important",

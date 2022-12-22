@@ -55,22 +55,53 @@ const schema = object({
   plate: string()
     .required("Plaka girilmesi zorunludur")
     .matches(
-      /^([0-8][0-1]|[0-8][0-1][0-9]|[0-8][0-1][0-9][0-9])\s[A-Z]{1,3}\s([0-9]{2,4})$/,
+      /^([0-8][0-9])\s[A-Z]{1,3}\s([0-9]{2,4})$/,
       "Plaka formatı uygun değil"
     )
+    //32 A 1234
+    //32 AB 123
+    //32 AB 1234
+    //32 ABC 12
     .test("plate", "Plaka formatı uygun değil", (value) => {
       if (value === undefined) return false;
-      const plate = value.split(" ");
-      if (plate[1]?.length === 1 && plate[2].length !== 4) return false;
-      if (
-        plate[1]?.length === 2 &&
-        plate[2]?.length !== 3 &&
-        plate[2]?.length !== 4
-      )
-        return false;
-      if (plate[1]?.length === 3 && plate[2]?.length !== 2) return false;
-      return true;
+      console.log(value);
+      const newValue = value?.split(" ");
+      const newValueLength =
+        newValue[0]?.length + newValue[1]?.length + newValue[2]?.length;
+      const firstPart = newValue[0];
+      const secondPart = newValue[1];
+      const thirdPart = newValue[2];
+
+      if (newValueLength > 8) return false;
+      if (newValueLength <= 8) {
+        if (
+          firstPart?.length === 2 &&
+          secondPart?.length === 1 &&
+          thirdPart?.length === 4
+        )
+          return true;
+      }
+      if (newValueLength <= 8) {
+        if (
+          firstPart?.length === 2 &&
+          secondPart?.length === 2 &&
+          (thirdPart?.length === 3 || thirdPart?.length === 4)
+        ) {
+          return true;
+        }
+      }
+      if (newValueLength <= 8) {
+        if (
+          firstPart?.length === 2 &&
+          secondPart?.length === 3 &&
+          thirdPart?.length === 2
+        ) {
+          return true;
+        }
+      }
+      return false;
     }),
+
   brand: object().shape({
     id: number(),
     label: string().required("Marka girilmesi zorunludur"),

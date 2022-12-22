@@ -17,7 +17,8 @@ const DefineBusModel = ({
   setNumberOfSeats,
 }: DefineBusModelProps) => {
   const styles = styleFn();
-  let seatCounter = 1 as number;
+
+  let seatCounter = 1;
   const onClickAddSeat = () => {
     if (numberOfSeats < 60 && numberOfSeats % 4 === 0) {
       setNumberOfSeats(numberOfSeats + 4);
@@ -80,6 +81,7 @@ const DefineBusModel = ({
       </Grid>
       <Grid
         xs={6}
+        item
         width="100%"
         height="10rem"
         container
@@ -93,7 +95,7 @@ const DefineBusModel = ({
         />
       </Grid>
 
-      <Grid xs={12} container minHeight="20vh" height="auto">
+      <Grid xs={12} item container minHeight="20vh" height="auto">
         {(() => {
           const seat = [];
           if (type === 1) {
@@ -103,6 +105,7 @@ const DefineBusModel = ({
                   <Grid
                     container
                     xs={6}
+                    item
                     justifyContent="center"
                     marginBottom="2rem"
                   >
@@ -133,6 +136,7 @@ const DefineBusModel = ({
                   <Grid
                     container
                     xs={6}
+                    item
                     justifyContent="center"
                     marginBottom="2rem"
                   >
@@ -160,6 +164,7 @@ const DefineBusModel = ({
                     <Grid
                       container
                       xs={6}
+                      item
                       justifyContent="center"
                       marginBottom="2rem"
                     >

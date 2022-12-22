@@ -1,11 +1,12 @@
-import { DefineVoyageFormStyleProps } from "./DefineVoyageForm.types";
+import { VoyageListStyleProps } from "./VoyageList.types";
 
-const styleFn: DefineVoyageFormStyleProps = () => ({
+const styleFn: VoyageListStyleProps = () => ({
   container: {
     height: "100%",
     width: "100%",
     marginTop: "2rem",
     alignItems: "center",
+    "& > :not(style)": { m: 1 },
   },
   alert: {
     display: "flex",
@@ -13,10 +14,10 @@ const styleFn: DefineVoyageFormStyleProps = () => ({
     alignItems: "center",
     fontSize: "1.3rem",
     width: "30rem",
-    marginLeft: "10rem",
+    marginLeft: "8rem",
   },
   root: {
-    width: "30rem",
+    width: "15rem",
     fieldset: {
       borderColor: "white",
     },
@@ -51,20 +52,16 @@ const styleFn: DefineVoyageFormStyleProps = () => ({
       position: "absolute",
       top: "5rem",
     },
-
     "& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled": {
       color: "rgba(0, 0, 0, 0.38) !important",
     },
   },
-  typography: { width: "10rem" },
+  typography: { width: "7rem" },
   button: {
-    width: "30rem",
-    height: "4rem",
     backgroundColor: "#141529",
     color: "white",
     fontSize: "1.3rem",
-    marginTop: "2rem",
-    marginLeft: "10rem",
+
     "&:hover": {
       backgroundColor: "#141529",
     },

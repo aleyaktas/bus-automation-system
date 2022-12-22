@@ -35,7 +35,7 @@ const DefineBusForm = ({
       <Grid
         container
         direction="column"
-        height="50rem"
+        height="60rem"
         justifyContent="space-evenly"
         alignItems="center"
       >
@@ -85,6 +85,7 @@ const DefineBusForm = ({
                     <TextField
                       {...params}
                       error={!!errors.brand}
+                      helperText={errors.brand?.label?.message}
                       label="Marka"
                       sx={styles.root}
                     />
@@ -128,6 +129,7 @@ const DefineBusForm = ({
                           ? "Önce Marka Seçiniz"
                           : "Model"
                       }
+                      helperText={errors.model?.label.message}
                       sx={styles.root}
                     />
                   )}
@@ -161,6 +163,7 @@ const DefineBusForm = ({
                   label="Koltuk Sayısı"
                   id="outlined-basic"
                   variant="outlined"
+                  helperText={errors.seatCount?.message}
                   sx={styles.root}
                 />
               </>
@@ -194,6 +197,7 @@ const DefineBusForm = ({
                       {...params}
                       error={!!errors.type}
                       label="Tip"
+                      helperText={errors.type?.message}
                       sx={styles.root}
                     />
                   )}
@@ -228,6 +232,7 @@ const DefineBusForm = ({
                       {...params}
                       error={!!errors.properties}
                       label="Özellikler"
+                      helperText={errors.properties?.message}
                       sx={styles.root}
                     />
                   )}

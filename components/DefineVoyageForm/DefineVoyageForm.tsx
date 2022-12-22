@@ -54,7 +54,7 @@ const DefineVoyageForm = ({
         <Grid
           container
           direction="column"
-          height="50rem"
+          height="60rem"
           justifyContent="space-evenly"
           alignItems="center"
         >
@@ -65,14 +65,14 @@ const DefineVoyageForm = ({
             height="auto"
             alignItems="center"
           >
+            <Typography sx={styles.typography} variant="h5">
+              Otobüs seç
+            </Typography>
             <Controller
               name={"plate"}
               control={control}
               render={({ field: { onChange, ...controllerProps } }) => (
                 <>
-                  <Typography sx={styles.typography} variant="h5">
-                    Otobüs seç
-                  </Typography>
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -84,6 +84,7 @@ const DefineVoyageForm = ({
                       <TextField
                         {...params}
                         error={!!errors.plate}
+                        helperText={errors.plate?.message}
                         label="Plaka"
                         sx={styles.root}
                       />
@@ -105,7 +106,8 @@ const DefineVoyageForm = ({
             </Typography>
             <TextField
               {...register("seatPrice")}
-              error={!!errors.plate}
+              error={!!errors.seatPrice}
+              helperText={errors.seatPrice?.message}
               id="outlined-basic"
               label="Koltuk ücreti"
               variant="outlined"
@@ -128,7 +130,12 @@ const DefineVoyageForm = ({
               value={value}
               onChange={handleChange}
               renderInput={(params) => (
-                <TextField {...params} sx={styles.root} />
+                <TextField
+                  {...params}
+                  sx={styles.root}
+                  error={!!errors.date}
+                  helperText={errors.date?.message}
+                />
               )}
             />
           </Grid>
@@ -139,14 +146,14 @@ const DefineVoyageForm = ({
             height="auto"
             alignItems="center"
           >
+            <Typography sx={styles.typography} variant="h5">
+              Nereden
+            </Typography>
             <Controller
               name={"from"}
               control={control}
               render={({ field: { onChange, ...controllerProps } }) => (
                 <>
-                  <Typography sx={styles.typography} variant="h5">
-                    Nereden
-                  </Typography>
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -158,6 +165,7 @@ const DefineVoyageForm = ({
                       <TextField
                         {...params}
                         error={!!errors.from}
+                        helperText={errors.from?.message}
                         label="Nereden"
                         sx={styles.root}
                       />
@@ -174,14 +182,14 @@ const DefineVoyageForm = ({
             height="auto"
             alignItems="center"
           >
+            <Typography sx={styles.typography} variant="h5">
+              Nereye
+            </Typography>
             <Controller
               name={"to"}
               control={control}
               render={({ field: { onChange, ...controllerProps } }) => (
                 <>
-                  <Typography sx={styles.typography} variant="h5">
-                    Nereye
-                  </Typography>
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -192,7 +200,8 @@ const DefineVoyageForm = ({
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        error={!!errors.brand}
+                        error={!!errors.to}
+                        helperText={errors.to?.message}
                         label="Nereye"
                         sx={styles.root}
                       />

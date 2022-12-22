@@ -49,7 +49,9 @@ const Navbar = () => {
       ? router.push("/define-bus")
       : newValue === 1
       ? router.push("/define-voyage")
-      : router.push("/login");
+      : newValue === 2
+      ? router.push("/buy-ticket")
+      : router.push("/buy-ticket");
   };
 
   return (

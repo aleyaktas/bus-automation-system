@@ -20,6 +20,18 @@ a {
   padding: 0;
   margin: 0;
 }
+.css-14lo706 {
+  font-size: 1.4rem;
+}
+.css-14lo706 > span {
+  padding: 0;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  padding: 0 0 0 5px;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
+  color: black !important;
+}
 /* .css-1wfewgb-MuiButtonBase-root-MuiTab-root.Mui-selected {
   font-size: 1.6rem;
 }
