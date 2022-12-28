@@ -4,7 +4,7 @@ import { GetServerSidePropsContext, PreviewData } from "next/types";
 import { ParsedUrlQuery, ParsedUrlQueryInput } from "querystring";
 
 const instance = axios.create({
-  baseURL: "http://localhost:80",
+  baseURL: "http://localhost",
 });
 
 interface Token {

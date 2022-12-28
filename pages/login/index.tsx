@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 const schema = object({
-  username: string().required("Username is required"),
+  email: string().required("Email is required"),
   password: string().required("Password is required"),
 });
 
@@ -37,10 +37,11 @@ export default function Home() {
 
   const onSubmit = async (data: FormValues) => {
     const userData = await handleLogin(data);
+    console.log(userData);
     setUser(userData);
     Cookies.set("token", userData);
 
-    router.push("/define-bus");
+    router.push("/buy-ticket");
   };
 
   return (
@@ -100,9 +101,9 @@ export default function Home() {
                   label="Email"
                   variant="standard"
                   type="text"
-                  {...register("username")}
+                  {...register("email")}
                 >
-                  Username
+                  Email
                 </TextField>
                 <TextField
                   InputLabelProps={{

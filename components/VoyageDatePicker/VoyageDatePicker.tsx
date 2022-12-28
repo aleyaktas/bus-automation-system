@@ -8,20 +8,30 @@ import { Grid } from "@mui/material";
 import { StyleWrapper } from "./VoyageDatePicker.styles";
 import BuyTicketModal from "../modals/BuyTicketModal/BuyTicketModal";
 import VoyageDetailModal from "../modals/VoyageDetailModal/VoyageDetailModal";
+import { string } from "yup";
 
-export default function VoyageDatePicker() {
+interface VoyageDataProps {
+  allVoyages?: any;
+  handleEventClick?: any;
+  voyages?: any;
+}
+
+export default function VoyageDatePicker({
+  allVoyages,
+  handleEventClick,
+  voyages,
+}: VoyageDataProps) {
+  console.log(allVoyages);
   const [date, setDate] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(date);
-  }, [date]);
-
+  console.log(voyages);
   const handleDateSelect = (selectInfo: any) => {
     `Tıklanılan Tarih ${selectInfo.startStr} `;
     setDate(selectInfo.startStr);
     setIsOpen(true);
   };
+
   return (
     <>
       <Grid marginTop="2rem">
@@ -33,6 +43,11 @@ export default function VoyageDatePicker() {
             editable={true}
             select={handleDateSelect}
             selectable={true}
+            events={voyages}
+            eventClick={(e: any) => {
+              handleEventClick(e.event._def.extendedProps),
+                console.log(e.event._def.extendedProps);
+            }}
             headerToolbar={{
               left: "prev,next today",
               center: "title",

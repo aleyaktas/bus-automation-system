@@ -22,7 +22,6 @@ const DefineBusForm = ({
   selectedBrand,
   handleSubmit,
   onSubmit,
-  isSuccess,
   setNumberOfSeats,
   numberOfSeats,
   setSelectedType,
@@ -246,7 +245,7 @@ const DefineBusForm = ({
           sx={styles.button}
           onClick={handleSubmit(onSubmit)}
         >
-          {isSuccess ? "Düzenle" : "Kaydet"}
+          Kaydet
         </Button>
       </Grid>
     </FormControl>

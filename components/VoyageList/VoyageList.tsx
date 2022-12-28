@@ -11,19 +11,29 @@ import { Controller, useForm } from "react-hook-form";
 import { object, string, number, array, InferType, TypeOf } from "yup";
 import styleFn from "./VoyageList.styles";
 import VoyageDatePicker from "../VoyageDatePicker/VoyageDatePicker";
+import axios from "axios";
+import { useState } from "react";
 
 export default function VoyageList({
-  data,
+  allLocation,
+  allVoyages,
+  handleEventClick,
   handleSubmit,
   formState,
   control,
+  onSubmit,
+  voyages,
 }: any) {
   const styles = styleFn();
   const { errors } = formState;
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
+  const locations = Object.values(allLocation).map((item: any) => {
+    return {
+      id: item.id,
+      label: item.name,
+    };
+  });
+
   return (
     <FormControl sx={styles.container}>
       <Grid container direction="column" alignItems="center">
@@ -48,12 +58,12 @@ export default function VoyageList({
                     onChange={(e, data) => {
                       onChange(data);
                     }}
-                    options={data.from}
+                    options={locations}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         error={!!errors.from}
-                        helperText={errors.from?.message}
+                        helperText={errors.from?.label?.message}
                         label="Nereden"
                         sx={styles.root}
                       />
@@ -75,12 +85,12 @@ export default function VoyageList({
                     onChange={(e, data) => {
                       onChange(data);
                     }}
-                    options={data.to}
+                    options={locations}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         error={!!errors.to}
-                        helperText={errors.to?.message}
+                        helperText={errors.to?.label?.message}
                         label="Nereye"
                         sx={styles.root}
                       />
@@ -102,7 +112,11 @@ export default function VoyageList({
           </Grid>
         </Grid>
         <Grid marginTop="2rem">
-          <VoyageDatePicker />
+          <VoyageDatePicker
+            allVoyages={allVoyages}
+            handleEventClick={(data: any) => handleEventClick(data)}
+            voyages={voyages}
+          />
         </Grid>
       </Grid>
     </FormControl>

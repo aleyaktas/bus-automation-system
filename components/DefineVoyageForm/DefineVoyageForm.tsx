@@ -14,8 +14,11 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import instance, { serverSideConfig } from "../../utils/axios";
+import "dayjs/locale/tr";
 
 const styles = styleFn();
+const locales = ["tr"] as const;
 
 const DefineVoyageForm = ({
   register,
@@ -23,30 +26,23 @@ const DefineVoyageForm = ({
   control,
   handleSubmit,
   onSubmit,
+  allBuses,
+  allLocations,
 }: any) => {
-  const data = {
-    plate: [
-      { id: 1, label: "34 1234" },
-      { id: 2, label: "34 1235" },
-      { id: 3, label: "34 1236" },
-    ],
-    from: [
-      { id: 1, label: "İstanbul" },
-      { id: 2, label: "Ankara" },
-      { id: 3, label: "İzmir" },
-    ],
-    to: [
-      { id: 1, label: "İstanbul" },
-      { id: 2, label: "Ankara" },
-      { id: 3, label: "İzmir" },
-    ],
-  };
+  const plate_number = allBuses?.map((bus: any) => {
+    return { id: bus.id, label: bus.plate_number };
+  });
+  const location = allLocations?.map((location: any) => {
+    return { id: location.id, label: location.name };
+  });
+
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
   };
+  console.log(value);
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locales[0]}>
       <FormControl sx={styles.container}>
         <Alert sx={styles.alert} severity="info">
           Sefer bilgillerini doldurunuz
@@ -79,12 +75,12 @@ const DefineVoyageForm = ({
                     onChange={(e, data) => {
                       onChange(data);
                     }}
-                    options={data.plate}
+                    options={plate_number}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         error={!!errors.plate}
-                        helperText={errors.plate?.message}
+                        helperText={errors.plate?.label?.message}
                         label="Plaka"
                         sx={styles.root}
                       />
@@ -132,6 +128,7 @@ const DefineVoyageForm = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  {...register("date")}
                   sx={styles.root}
                   error={!!errors.date}
                   helperText={errors.date?.message}
@@ -160,12 +157,12 @@ const DefineVoyageForm = ({
                     onChange={(e, data) => {
                       onChange(data);
                     }}
-                    options={data.from}
+                    options={location}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         error={!!errors.from}
-                        helperText={errors.from?.message}
+                        helperText={errors.from?.label?.message}
                         label="Nereden"
                         sx={styles.root}
                       />
@@ -196,12 +193,12 @@ const DefineVoyageForm = ({
                     onChange={(e, data) => {
                       onChange(data);
                     }}
-                    options={data.to}
+                    options={location}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         error={!!errors.to}
-                        helperText={errors.to?.message}
+                        helperText={errors.to?.label?.message}
                         label="Nereye"
                         sx={styles.root}
                       />

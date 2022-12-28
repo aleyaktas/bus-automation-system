@@ -16,8 +16,11 @@ interface DefineBusProps {
 }
 
 interface BusDataProps {
-  id: number;
-  name: string;
+  ID: number;
+  id?: number;
+  Name?: string;
+  Value?: string;
+  value?: string;
 }
 interface BrandProps {
   id: number;
@@ -34,12 +37,12 @@ interface DefineBusDataProps {
 export const getServerSideProps = async (context: any) => {
   try {
     const res = await instance.get(
-      "/api/bus-definition",
+      "/api/busses/bus-definition/",
       serverSideConfig(context)
     );
     return {
       props: {
-        getAllDefineBus: res.data,
+        getAllDefineBus: res.data.data,
       },
     };
   } catch (error) {
@@ -58,10 +61,6 @@ const schema = object({
       /^([0-8][0-9])\s[A-Z]{1,3}\s([0-9]{2,4})$/,
       "Plaka formatı uygun değil"
     )
-    //32 A 1234
-    //32 AB 123
-    //32 AB 1234
-    //32 ABC 12
     .test("plate", "Plaka formatı uygun değil", (value) => {
       if (value === undefined) return false;
       console.log(value);
@@ -113,6 +112,7 @@ const schema = object({
 
   seatCount: number()
     .default(20)
+    .max(60, "Koltuk sayısı 60'dan fazla olamaz")
     .required("Koltuk sayısı girilmesi zorunludur")
     .typeError("Koltuk sayısı girilmesi zorunludur")
     // multiple of 3 or 4
@@ -152,14 +152,13 @@ const schema = object({
 type FormValues = InferType<typeof schema>;
 
 export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
+  console.log(getAllDefineBus);
   const [selectedType, setSelectedType] = useState<number>(2);
 
   const { register, handleSubmit, formState, control, resetField, setValue } =
     useForm<FormValues>({
       resolver: yupResolver(schema),
     });
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [busId, setBusId] = useState(-1);
 
   const { fields } = useFieldArray({
     control,
@@ -185,10 +184,11 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
       setDefineBusData((prev) => {
         return {
           ...prev,
-          models: model?.model?.map((item: BusDataProps) => {
+          models: model.map((item: BusDataProps) => {
+            console.log(item);
             return {
               id: item.id,
-              label: item.name,
+              label: item.value,
             };
           }),
         };
@@ -221,58 +221,44 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
   const [defineBusData, setDefineBusData] = useState<DefineBusDataProps>({
     brands: Object?.entries(getAllDefineBus)[0][1].map((item: BusDataProps) => {
       return {
-        id: item.id,
-        label: item.name,
+        id: item.ID,
+        label: item.Name,
       };
     }),
-    properties: Object?.entries(getAllDefineBus)[1][1].map(
+    types: Object?.entries(getAllDefineBus)[1][1].map((item: BusDataProps) => {
+      return {
+        id: item.ID,
+        label: item.Value,
+      };
+    }),
+    properties: Object?.entries(getAllDefineBus)[2][1].map(
       (item: BusDataProps) => {
         return {
-          id: item.id,
-          label: item.name,
+          id: item.ID,
+          label: item.Value,
         };
       }
     ),
-    types: Object?.entries(getAllDefineBus)[2][1].map((item: BusDataProps) => {
-      return {
-        id: item.id,
-        label: item.name,
-      };
-    }),
     models: [] as Array<any>,
   });
   console.log(defineBusData);
 
   const onSubmit = async (data: FormValues) => {
-    var res;
-    {
-      isSuccess && busId !== -1
-        ? (res = await editBusModel({
-            plate_number: data.plate,
-            model_id: data.model?.id,
-            id: busId,
-            number_of_seats: numberOfSeats,
-            type: data.type.id,
-            properties: data?.properties?.map((item) => {
-              return {
-                id: item.id,
-              };
-            }),
-          }))
-        : (res = await addBusModel({
-            plate_number: data.plate,
-            model_id: data.model?.id,
-            number_of_seats: numberOfSeats,
-            type: data.type.id,
-            properties: data?.properties?.map((item) => {
-              return {
-                id: item.id,
-              };
-            }),
-          }));
-    }
-    res && res.message === "Bus created" && setIsSuccess(true);
-    res && res.message === "Bus created" && setBusId(res.bus?.id);
+    await addBusModel({
+      plate_number: data.plate,
+      model_id: data.model?.id,
+      number_of_seats: numberOfSeats,
+      type: data.type.id,
+      properties: data?.properties?.map((item) => {
+        return {
+          id: item.id,
+        };
+      }),
+    });
+  };
+
+  const onClickSeat = (data: any) => {
+    console.log(data);
   };
 
   return (
@@ -287,7 +273,6 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
           selectedBrand={selectedBrand}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
-          isSuccess={isSuccess}
           setNumberOfSeats={setNumberOfSeats}
           setSelectedType={setSelectedType}
           numberOfSeats={numberOfSeats}
@@ -296,6 +281,7 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
       <Grid item xs={6} container justifyContent="flex-start">
         <DefineBusModel
           numberOfSeats={numberOfSeats}
+          onClickSeat={(data) => onClickSeat(data)}
           type={selectedType}
           setNumberOfSeats={setNumberOfSeats}
         />

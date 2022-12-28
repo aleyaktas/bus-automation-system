@@ -28,9 +28,13 @@ const style = {
 export default function BuyTicketModal({
   isOpen,
   setIsOpen,
+  seatNumber,
+  price,
 }: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  seatNumber: number;
+  price: number;
 }) {
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -76,7 +80,7 @@ export default function BuyTicketModal({
               component="h2"
               sx={styles.typography}
             >
-              Koltuk Numaranız: 1
+              Koltuk Numaranız: {seatNumber}
             </Typography>
             <Typography
               id="modal-modal-description"
@@ -84,7 +88,7 @@ export default function BuyTicketModal({
               component="h2"
               sx={styles.typography}
             >
-              Koltuk Ücretiniz: 10 TL
+              Koltuk Ücretiniz: {price} TL
             </Typography>
 
             <FormControl sx={{ minWidth: "12rem" }} size="medium">
