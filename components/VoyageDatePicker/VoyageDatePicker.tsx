@@ -6,32 +6,22 @@ import interactionPlugin from "@fullcalendar/interaction";
 import allLocales from "@fullcalendar/core/locales-all";
 import { Grid } from "@mui/material";
 import { StyleWrapper } from "./VoyageDatePicker.styles";
-import BuyTicketModal from "../modals/BuyTicketModal/BuyTicketModal";
-import VoyageDetailModal from "../modals/VoyageDetailModal/VoyageDetailModal";
-import { string } from "yup";
+import subStractDate from "../../utils/substractDate";
 
 interface VoyageDataProps {
   allVoyages?: any;
   handleEventClick?: any;
   voyages?: any;
+  setIsOpenModal?: any;
 }
 
 export default function VoyageDatePicker({
   allVoyages,
   handleEventClick,
   voyages,
+  setIsOpenModal,
 }: VoyageDataProps) {
-  console.log(allVoyages);
-  const [date, setDate] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(voyages);
-  const handleDateSelect = (selectInfo: any) => {
-    `Tıklanılan Tarih ${selectInfo.startStr} `;
-    setDate(selectInfo.startStr);
-    setIsOpen(true);
-  };
-
   return (
     <>
       <Grid marginTop="2rem">
@@ -41,12 +31,19 @@ export default function VoyageDatePicker({
             locales={allLocales}
             locale="tr"
             editable={true}
-            select={handleDateSelect}
+            // select={handleDateSelect}
             selectable={true}
             events={voyages}
             eventClick={(e: any) => {
-              handleEventClick(e.event._def.extendedProps),
-                console.log(e.event._def.extendedProps);
+              handleEventClick(e.event._def.extendedProps);
+              const date = e.event.start.toLocaleDateString("tr-TR");
+              const date1 = date.split(".").reverse().join("-");
+              const date2 = subStractDate(date1);
+              if (date2 < 0) {
+                setIsOpenModal(true);
+              } else {
+                setIsOpenModal(false);
+              }
             }}
             headerToolbar={{
               left: "prev,next today",
@@ -55,7 +52,6 @@ export default function VoyageDatePicker({
             }}
           />
         </StyleWrapper>
-        <VoyageDetailModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </Grid>
     </>
   );

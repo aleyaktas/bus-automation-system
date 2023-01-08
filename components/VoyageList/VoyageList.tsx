@@ -8,22 +8,39 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { object, string, number, array, InferType, TypeOf } from "yup";
 import styleFn from "./VoyageList.styles";
 import VoyageDatePicker from "../VoyageDatePicker/VoyageDatePicker";
 import axios from "axios";
 import { useState } from "react";
+
+interface VoyageDataProps {
+  allLocation: object;
+  allVoyages: object;
+  handleEventClick: any;
+  handleSubmit: any;
+  isOpen?: any;
+  setIsOpen?: any;
+  formState: any;
+  control: any;
+  onSubmit: any;
+  voyages: any;
+  register: any;
+  resetField: any;
+  setValue: any;
+}
 
 export default function VoyageList({
   allLocation,
   allVoyages,
   handleEventClick,
   handleSubmit,
+  isOpen,
+  setIsOpen,
   formState,
   control,
   onSubmit,
   voyages,
-}: any) {
+}: VoyageDataProps) {
   const styles = styleFn();
   const { errors } = formState;
 
@@ -33,6 +50,8 @@ export default function VoyageList({
       label: item.name,
     };
   });
+
+  const [selectCity, setSelectCity] = useState<any>();
 
   return (
     <FormControl sx={styles.container}>
@@ -57,6 +76,7 @@ export default function VoyageList({
                     id="combo-box-demo"
                     onChange={(e, data) => {
                       onChange(data);
+                      setSelectCity(data);
                     }}
                     options={locations}
                     renderInput={(params) => (
@@ -113,6 +133,7 @@ export default function VoyageList({
         </Grid>
         <Grid marginTop="2rem">
           <VoyageDatePicker
+            setIsOpenModal={setIsOpen}
             allVoyages={allVoyages}
             handleEventClick={(data: any) => handleEventClick(data)}
             voyages={voyages}

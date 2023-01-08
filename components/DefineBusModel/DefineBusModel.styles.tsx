@@ -10,6 +10,25 @@ const styleFn: DefineBusModelStyleProps = () => ({
     height: "5rem",
     backgroundColor: "#2e5951",
     borderRadius: "0.4rem",
+    cursor: "pointer",
+  },
+  seatMan: {
+    width: "5rem",
+    height: "5rem",
+    backgroundColor: "#0d47a1",
+    borderRadius: "0.4rem",
+    opacity: 0.5,
+
+    pointerEvents: "none",
+  },
+  seatWoman: {
+    width: "5rem",
+    height: "5rem",
+    backgroundColor: "#e91e63",
+    borderRadius: "0.4rem",
+    opacity: 0.5,
+
+    pointerEvents: "none",
   },
   button: {
     marginRight: "1.2rem",

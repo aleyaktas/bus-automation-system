@@ -1,12 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Grid } from "@mui/material";
-import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import instance, { serverSideConfig } from "../../utils/axios";
 import { object, string, number, array, InferType, TypeOf } from "yup";
 import { addBusModel, editBusModel, getModel } from "../api";
-import styleFn from "./DefineBus.styles";
 import DefineBusForm from "../../components/DefineBusForm/DefineBusForm";
 import DefineBusModel from "../../components/DefineBusModel/DefineBusModel";
 
@@ -63,7 +61,7 @@ const schema = object({
     )
     .test("plate", "Plaka formatı uygun değil", (value) => {
       if (value === undefined) return false;
-      console.log(value);
+
       const newValue = value?.split(" ");
       const newValueLength =
         newValue[0]?.length + newValue[1]?.length + newValue[2]?.length;
@@ -115,10 +113,9 @@ const schema = object({
     .max(60, "Koltuk sayısı 60'dan fazla olamaz")
     .required("Koltuk sayısı girilmesi zorunludur")
     .typeError("Koltuk sayısı girilmesi zorunludur")
-    // multiple of 3 or 4
     .test(
       "seatCount",
-      "Koltuk sayısı 3 veya 4 ile tam bölünmelidir",
+      "Koltuk sayısı uyumlu değil",
       (value) => value % 3 === 0 || value % 4 === 0
     ),
 
@@ -152,7 +149,6 @@ const schema = object({
 type FormValues = InferType<typeof schema>;
 
 export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
-  console.log(getAllDefineBus);
   const [selectedType, setSelectedType] = useState<number>(2);
 
   const { register, handleSubmit, formState, control, resetField, setValue } =
@@ -185,7 +181,6 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
         return {
           ...prev,
           models: model.map((item: BusDataProps) => {
-            console.log(item);
             return {
               id: item.id,
               label: item.value,
@@ -241,7 +236,6 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
     ),
     models: [] as Array<any>,
   });
-  console.log(defineBusData);
 
   const onSubmit = async (data: FormValues) => {
     await addBusModel({
@@ -255,10 +249,6 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
         };
       }),
     });
-  };
-
-  const onClickSeat = (data: any) => {
-    console.log(data);
   };
 
   return (
@@ -280,8 +270,8 @@ export default function DefineBus({ getAllDefineBus, err }: DefineBusProps) {
       </Grid>
       <Grid item xs={6} container justifyContent="flex-start">
         <DefineBusModel
+          isCanChangeSeat
           numberOfSeats={numberOfSeats}
-          onClickSeat={(data) => onClickSeat(data)}
           type={selectedType}
           setNumberOfSeats={setNumberOfSeats}
         />

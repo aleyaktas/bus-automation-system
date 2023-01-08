@@ -40,7 +40,7 @@ const DefineVoyageForm = ({
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
   };
-  console.log(value);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locales[0]}>
       <FormControl sx={styles.container}>

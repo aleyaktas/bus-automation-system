@@ -10,8 +10,10 @@ interface DefineBusModelProps {
   numberOfSeats: number;
   type: number;
   setNumberOfSeats: (numberOfSeats: number) => void;
-  onClickSeat: (data: number) => void;
+  onClickSeat?: (data: number) => void;
   height?: string;
+  soldSeats?: any[];
+  isCanChangeSeat?: boolean;
 }
 
 const DefineBusModel = ({
@@ -20,21 +22,13 @@ const DefineBusModel = ({
   setNumberOfSeats,
   onClickSeat,
   height,
+  soldSeats,
+  isCanChangeSeat,
 }: DefineBusModelProps) => {
   const styles = styleFn();
 
   let seatCounter = 1;
-
   const [seatCounterState, setSeatCounterState] = React.useState(0);
-
-  useEffect(() => {
-    console.log(
-      seatCounter,
-      "seatCounter",
-      seatCounterState,
-      "seatCounterState"
-    );
-  }, [seatCounter, seatCounterState]);
 
   const onClickAddSeat = () => {
     if (numberOfSeats < 60 && numberOfSeats % 4 === 0) {
@@ -78,39 +72,42 @@ const DefineBusModel = ({
     <Grid
       bgcolor="white"
       maxHeight="70rem"
-      height={height ? height : "auto"}
+      height="auto"
       overflow="auto"
       container
       ref={ref}
       alignContent="flex-start"
       borderRadius="0.4rem"
-      xs={6}
+      xs={8}
+      md={6}
       item
       sx={styles.container}
     >
-      <Grid container justifyContent="end" marginTop="1.2rem">
-        <div
-          style={{
-            position: "fixed",
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={styles.button}
-            onClick={onClickAddSeat}
+      {isCanChangeSeat && (
+        <Grid container justifyContent="end" marginTop="1.2rem">
+          <div
+            style={{
+              position: "fixed",
+            }}
           >
-            <AddIcon />
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={styles.button}
-            onClick={onClickRemoveSeat}
-          >
-            <RemoveIcon />
-          </Button>
-        </div>
-      </Grid>
+            <Button
+              variant="contained"
+              sx={styles.button}
+              onClick={onClickAddSeat}
+            >
+              <AddIcon />
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={styles.button}
+              onClick={onClickRemoveSeat}
+            >
+              <RemoveIcon />
+            </Button>
+          </div>
+        </Grid>
+      )}
       <Grid
         xs={6}
         item
@@ -140,9 +137,6 @@ const DefineBusModel = ({
                     item
                     justifyContent="center"
                     marginBottom="2rem"
-                    sx={{
-                      cursor: "pointer",
-                    }}
                   >
                     <Grid
                       xs={3}
@@ -150,10 +144,22 @@ const DefineBusModel = ({
                       container
                       justifyContent="center"
                       alignItems="center"
-                      sx={styles.seat}
+                      sx={
+                        soldSeats?.find(
+                          (item: any) =>
+                            item.no === seatCounter && item.gender === true
+                        )
+                          ? styles.seatMan
+                          : soldSeats?.find(
+                              (item: any) =>
+                                item.no === seatCounter && item.gender === false
+                            )
+                          ? styles.seatWoman
+                          : styles.seat
+                      }
                       onClick={() => {
-                        const value = findSeatCount(i);
-                        onClickSeat(value);
+                        const val = findSeatCount(i);
+                        val && onClickSeat && onClickSeat(val);
                       }}
                     >
                       <Typography fontSize="1.6rem">{seatCounter}</Typography>
@@ -166,10 +172,22 @@ const DefineBusModel = ({
                       container
                       justifyContent="center"
                       alignItems="center"
-                      sx={styles.seat}
+                      sx={
+                        soldSeats?.find(
+                          (item: any) =>
+                            item.no === seatCounter && item.gender === true
+                        )
+                          ? styles.seatMan
+                          : soldSeats?.find(
+                              (item: any) =>
+                                item.no === seatCounter && item.gender === false
+                            )
+                          ? styles.seatWoman
+                          : styles.seat
+                      }
                       onClick={() => {
-                        const value = findSeatCount(i);
-                        onClickSeat(value + 1);
+                        const val = findSeatCount(i);
+                        val && onClickSeat && onClickSeat(val + 1);
                       }}
                     >
                       <Typography fontSize="1.8rem">{seatCounter}</Typography>
@@ -192,10 +210,22 @@ const DefineBusModel = ({
                       container
                       justifyContent="center"
                       alignItems="center"
-                      sx={styles.seat}
+                      sx={
+                        soldSeats?.find(
+                          (item: any) =>
+                            item.no === seatCounter && item.gender === true
+                        )
+                          ? styles.seatMan
+                          : soldSeats?.find(
+                              (item: any) =>
+                                item.no === seatCounter && item.gender === false
+                            )
+                          ? styles.seatWoman
+                          : styles.seat
+                      }
                       onClick={() => {
-                        const value = findSeatCount(i);
-                        onClickSeat(value + 2);
+                        const val = findSeatCount(i);
+                        val && onClickSeat && onClickSeat(val + 2);
                       }}
                     >
                       <Typography fontSize="1.6rem">{seatCounter}</Typography>
@@ -217,9 +247,6 @@ const DefineBusModel = ({
                       item
                       justifyContent="center"
                       marginBottom="2rem"
-                      sx={{
-                        cursor: "pointer",
-                      }}
                     >
                       <Grid
                         xs={3}
@@ -227,10 +254,23 @@ const DefineBusModel = ({
                         container
                         justifyContent="center"
                         alignItems="center"
-                        sx={styles.seat}
+                        sx={
+                          soldSeats?.find(
+                            (item: any) =>
+                              item.no === seatCounter && item.gender === true
+                          )
+                            ? styles.seatMan
+                            : soldSeats?.find(
+                                (item: any) =>
+                                  item.no === seatCounter &&
+                                  item.gender === false
+                              )
+                            ? styles.seatWoman
+                            : styles.seat
+                        }
                         onClick={() => {
                           const val = findEvenSeatCount(i, j);
-                          val && onClickSeat(val);
+                          val && onClickSeat && onClickSeat(val);
                         }}
                       >
                         <Typography fontSize="1.6rem">{seatCounter}</Typography>
@@ -242,10 +282,23 @@ const DefineBusModel = ({
                         container
                         justifyContent="center"
                         alignItems="center"
-                        sx={styles.seat}
+                        sx={
+                          soldSeats?.find(
+                            (item: any) =>
+                              item.no === seatCounter && item.gender === true
+                          )
+                            ? styles.seatMan
+                            : soldSeats?.find(
+                                (item: any) =>
+                                  item.no === seatCounter &&
+                                  item.gender === false
+                              )
+                            ? styles.seatWoman
+                            : styles.seat
+                        }
                         onClick={() => {
                           const val = findEvenSeatCount(i, j);
-                          val && onClickSeat(val + 1);
+                          val && onClickSeat && onClickSeat(val + 1);
                         }}
                       >
                         <Typography fontSize="1.6rem">{seatCounter}</Typography>

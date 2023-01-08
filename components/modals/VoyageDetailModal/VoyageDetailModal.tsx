@@ -28,9 +28,19 @@ const style = {
 export default function VoyageDetailModal({
   isOpen,
   setIsOpen,
+  voyageDate,
+  numberEmptySeats,
+  totalPrice,
+  soldSeats,
+  handleDeleteVoyage,
 }: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  voyageDate: string;
+  numberEmptySeats: number;
+  totalPrice: number;
+  soldSeats: number;
+  handleDeleteVoyage: () => void;
 }) {
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -71,7 +81,7 @@ export default function VoyageDetailModal({
               component="h2"
               sx={styles.typography}
             >
-              Sefer Tarihi: 01.01.2023
+              Sefer Tarihi: {voyageDate}
             </Typography>
             <Typography
               id="modal-modal-description"
@@ -79,7 +89,7 @@ export default function VoyageDetailModal({
               component="h2"
               sx={styles.typography}
             >
-              Satılan Koltuk Sayısı: 10
+              Satılan Koltuk Sayısı: {soldSeats}
             </Typography>
             <Typography
               id="modal-modal-description"
@@ -87,7 +97,7 @@ export default function VoyageDetailModal({
               component="h2"
               sx={styles.typography}
             >
-              Toplam Kazanılan Miktar: 1000 TL
+              Toplam Kazanılan Miktar: {totalPrice} TL
             </Typography>
             <Typography
               id="modal-modal-description"
@@ -95,10 +105,15 @@ export default function VoyageDetailModal({
               component="h2"
               sx={styles.typography}
             >
-              Boş Koltuk: 10
+              Boş Koltuk: {numberEmptySeats}
             </Typography>
 
-            <Button sx={styles.button} variant="contained" color="error">
+            <Button
+              sx={styles.button}
+              variant="contained"
+              color="error"
+              onClick={handleDeleteVoyage}
+            >
               Seferi Sil
             </Button>
           </Grid>

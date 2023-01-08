@@ -37,7 +37,7 @@ export default function Home() {
 
   const onSubmit = async (data: FormValues) => {
     const userData = await handleLogin(data);
-    console.log(userData);
+
     setUser(userData);
     Cookies.set("token", userData);
 

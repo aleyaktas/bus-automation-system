@@ -30,11 +30,13 @@ export default function BuyTicketModal({
   setIsOpen,
   seatNumber,
   price,
+  buyTicketButton,
 }: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   seatNumber: number;
   price: number;
+  buyTicketButton: (data: any) => void;
 }) {
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -107,7 +109,19 @@ export default function BuyTicketModal({
               </Select>
             </FormControl>
 
-            <Button sx={styles.button} variant="contained" color="success">
+            <Button
+              sx={styles.button}
+              variant="contained"
+              color="success"
+              onClick={() => {
+                selectGender &&
+                  buyTicketButton({
+                    seatNumber,
+                    gender: selectGender,
+                  });
+                setSelectGender("");
+              }}
+            >
               Satın Al
             </Button>
           </Grid>

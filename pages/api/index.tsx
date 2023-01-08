@@ -157,3 +157,35 @@ export const getVoyage = async ({ from, to }: { from: string; to: string }) => {
     console.error(error);
   }
 };
+
+export const buyTicket = async ({
+  travel_id,
+  bus_id,
+  seat_number,
+  gender,
+}: {
+  travel_id: number;
+  bus_id: number;
+  seat_number: number;
+  gender: boolean | undefined;
+}) => {
+  try {
+    const res = await instance.post(
+      "/api/voyage/buy-ticket",
+      { travel_id, bus_id, no: seat_number, gender },
+      config
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteVoyage = async ({ id }: { id: number }) => {
+  try {
+    const res = await instance.delete(`/api/voyage/${id}`, config);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
